@@ -7,13 +7,7 @@ export default class JSet<T> {
   }
 
   private preprocess(items: T[]): T[] {
-    const _postProcessedItems: T[] = [];
-    for (const item of items) {
-      if (!_postProcessedItems.includes(item))
-        _postProcessedItems.push(item);
-    }
-
-    return _postProcessedItems;
+    return [...new Set(items)]; // automatically removes duplicates
   }
 
   public size(): number {
@@ -42,6 +36,7 @@ export default class JSet<T> {
   }
 
   public equals(otherSet: JSet<T>): boolean {
+    if (this === otherSet) return true;
     if (this.size() !== otherSet.size()) return false;
 
     // If both sets are subsets of each other, then we can
