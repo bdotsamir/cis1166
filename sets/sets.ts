@@ -102,6 +102,18 @@ export default class JSet<T> {
     return powerSet;
   }
 
+  // All A that are not in B
+  public difference(otherSet: JSet<T>): JSet<T> {
+    const diffSet = new JSet<T>(); // empty set to begin with
+    for (const item of this) {
+      // if (this.has(item) && !otherSet.has(item))
+      // First condition will always be true, so to simplify:
+      if (!otherSet.has(item))
+        diffSet.add(item);
+    }
+    return diffSet;
+  }
+
   public has(element: T): boolean {
     return this.items.includes(element);
   }
