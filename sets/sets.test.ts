@@ -72,7 +72,7 @@ describe("Set union / intersection", () => {
 test("Set disjoint", () => {
   const setA = new JSet(1, 2, 3);
   const setB = new JSet(4, 5, 6);
-  
+
   expect(setA.isDisjoint(setB)).toBeTrue();
 });
 
@@ -95,3 +95,5 @@ describe("Set difference", () => {
     expect(setA.symmetricDifference(setB).equals(symmDiff)).toBeTrue();
   });
 });
+
+test.todo("set A power set");
