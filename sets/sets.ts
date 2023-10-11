@@ -114,6 +114,19 @@ export default class JSet<T> {
     return diffSet;
   }
 
+  // Equivalent to the complement of the intersection
+  public symmetricDifference(otherSet: JSet<T>): JSet<T> {
+    const intersection = this.intersection(otherSet);
+    
+    // 1. item in A belongs to intersection AND
+    // 2. item in B belongs to intersection
+    // aka: (A union B) - intersection
+
+    const unionSet = this.union(otherSet);
+    const symDiffSet = unionSet.difference(intersection); // All A that are not in B
+    return symDiffSet;
+  }
+
   public has(element: T): boolean {
     return this.items.includes(element);
   }
