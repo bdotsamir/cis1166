@@ -74,12 +74,12 @@ export default class JSet<T> {
     return this.intersection(otherSet).size() === 0;
   }
 
-  public static isEmptySet<Q>(set: JSet<Q>): boolean {
-    return set.size() === 0;
+  public isEmptySet(): boolean {
+    return this.size() === 0;
   }
 
-  public static isSingletonSet<Q>(set: JSet<Q>): boolean {
-    return set.size() === 1;
+  public isSingletonSet(): boolean {
+    return this.size() === 1;
   }
 
   public powerSet(): JSet<JSet<T>> {
