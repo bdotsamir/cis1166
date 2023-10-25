@@ -37,6 +37,19 @@ export default class Matrix<T> {
     return new Matrix<number>(summedRawMat);
   }
 
+  public transpose(): Matrix<T> {
+    const transposedRawMat: TwoDimensionalT<T> = [];
+
+    for (let row = 0; row < this.matrix.length; row++) {
+      transposedRawMat[row] = [];
+      for (let column = 0; column < this.matrix[row].length; column++) {
+        transposedRawMat[row][column] = this.at(column, row);
+      }
+    }
+
+    return new Matrix<T>(transposedRawMat);
+  }
+
   public at(row: number, column: number): T {
     return this.matrix[row][column];
   }
