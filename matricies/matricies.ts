@@ -20,10 +20,6 @@ export default class Matrix<T> {
       throw new RangeError("Number of rows and columns must be equal");
     }
 
-    if (typeof this.matrix[0][0] !== 'number') {
-      throw new TypeError("Matrix must be of type `number` to sum.");
-    }
-
     const summedRawMat: TwoDimensionalT<number> = [];
     for (let row = 0; row < this.matrix.length; row++) {
       for (let column = 0; column < this.matrix[row].length; column++) {
@@ -48,6 +44,42 @@ export default class Matrix<T> {
     }
 
     return new Matrix<T>(transposedRawMat);
+  }
+
+  // Given enough time I could probably have implemented this myself,
+  // but I was really having a difficult time of it.
+  // So, thank you: https://stackoverflow.com/a/27205341
+  public multiply(otherMatrix: Matrix<number>): Matrix<number> {
+    if (this.numColumns !== otherMatrix.numRows) {
+      throw new RangeError("Number of columns in first matrix must equal number of rows in second matrix");
+    }
+
+    const multipliedRawMat: TwoDimensionalT<number> = [];
+
+    for (var r = 0; r < this.numRows; ++r) {
+      multipliedRawMat[r] = new Array(otherMatrix.numColumns); // initialize the current row
+      for (var c = 0; c < otherMatrix.numColumns; ++c) {
+        multipliedRawMat[r][c] = 0; // initialize the current cell
+        for (var i = 0; i < this.numColumns; ++i) {
+          multipliedRawMat[r][c] += (this.at(r, i) as number) * otherMatrix.at(i, c);
+        }
+      }
+    }
+
+    return new Matrix<number>(multipliedRawMat);
+  }
+
+  public pow(exponent: number): Matrix<number> {
+    if (this.numRows !== this.numColumns) {
+      throw new RangeError("Matrix must be square");
+    }
+
+    let result = this as Matrix<number>;
+    for (let i = 1; i < exponent; i++) {
+      result = result.multiply(this as Matrix<number>);
+    }
+
+    return result;
   }
 
   public at(row: number, column: number): T {
