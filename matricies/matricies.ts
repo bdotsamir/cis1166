@@ -60,12 +60,25 @@ export default class Matrix<T> {
     }
   }
 
+  public *columnIterator(): IterableIterator<T[]> {
+    const invertedMatrix = this.transpose(); // Turns rows into columns
+    for (const row of invertedMatrix.rowIterator()) {
+      yield row;
+    }
+  }
+
   public *elementIterator(): IterableIterator<T> {
     for (const row of this.rowIterator()) {
       for (const element of row) {
         yield element;
       }
     }
+  }
+
+  public toString(): string {
+    return "[" + this.matrix
+      .map(row => row.join(", "))
+      .join("\n") + "]";
   }
 
 }
