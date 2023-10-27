@@ -56,11 +56,11 @@ export default class Matrix<T> {
 
     const multipliedRawMat: TwoDimensionalT<number> = [];
 
-    for (var r = 0; r < this.numRows; ++r) {
+    for (let r = 0; r < this.numRows; ++r) {
       multipliedRawMat[r] = new Array(otherMatrix.numColumns); // initialize the current row
-      for (var c = 0; c < otherMatrix.numColumns; ++c) {
+      for (let c = 0; c < otherMatrix.numColumns; ++c) {
         multipliedRawMat[r][c] = 0; // initialize the current cell
-        for (var i = 0; i < this.numColumns; ++i) {
+        for (let i = 0; i < this.numColumns; ++i) {
           multipliedRawMat[r][c] += (this.at(r, i) as number) * otherMatrix.at(i, c);
         }
       }
