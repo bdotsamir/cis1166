@@ -113,4 +113,8 @@ export default class Matrix<T> {
       .join("\n") + "]";
   }
 
+  public to2DArray(): TwoDimensionalT<T> {
+    return this.matrix;
+  }
+
 }
