@@ -65,7 +65,7 @@ const transposedMatrixA = mathjs.transpose(matrixA);
 // console.log(transposedMatrixA);
 console.log('matA\' size', transposedMatrixA.size());
 
-const multipliedMatrix = mathjs.multiply(matrixA, transposedMatrixA);
+const multipliedMatrix = mathjs.multiply(transposedMatrixA, matrixA);
 console.log("multiplied size", multipliedMatrix.size());
 
 const eigs = mathjs.eigs(multipliedMatrix);
