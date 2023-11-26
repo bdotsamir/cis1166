@@ -78,11 +78,13 @@ let smallestEigen = eigenvectors[0];
 for (const eigen of eigenvectors) {
   if (eigen.value < smallestEigen.value) {
     smallestEigen = eigen
+    console.log("smallest eigenvalue changed", smallestEigen.value);
   }
 }
 
 // @ts-expect-error
 const smallestEigenvector: number[] = smallestEigen.vector.toArray();
+// console.log(smallestEigenvector);
 const coefficient = 1 / smallestEigenvector[8];
 // const normalizedEigenvector = mathjs.multiply(coefficient, smallestEigenvector);
 const normalizedEigenvector = smallestEigenvector.map(n => coefficient * n);
