@@ -17,11 +17,31 @@ class CreateCircle(Scene):
 
     self.play(Rotate(left_square, angle=PI / 2), Rotate(right_square, angle=PI), run_time=2)
 
-    manim_text = Text("manim")
+    manim_text = Tex(r"\LaTeX")
     manim_text.shift(DOWN * 2)
     self.add(manim_text)
     self.play(Write(manim_text))
 
-    self.wait(3)
+    self.wait(1)
 
     self.play(FadeOut(left_square), FadeOut(right_square), FadeOut(manim_text))
+    template = TexTemplate()
+    template.add_to_preamble(r"\usepackage{amsmath}")
+
+class MatrixScene(Scene):
+  def construct(self):
+    mat = Matrix([
+      [r"x_{11}", r"x_{12}", r"x_{13}"],
+      [r"x_{21}", r"x_{22}", r"x_{23}"],
+      [r"\vdots", r"\vdots", r"\vdots"],
+      [r"x_{n1}", r"x_{n2}", r"x_{n3}"]
+    ])
+
+    self.add(mat)
+
+    self.wait(1)
+
+    # self.add(VGroup(tex, other_vector_matrix).arrange(RIGHT))
+
+
+
