@@ -7,25 +7,17 @@ import * as mathjs from "mathjs";
 type OrderedPair = [number, number]; // [X, Y]
 
 const sourcePoints: OrderedPair[] = [
-  [733, 404], // CBTL
-  [1308, 378], // CBTR
-  [754, 1016], // CHDL
-  [1172, 946], // CBKB
-  [680, 1163], // CBBL
-  [1207, 1162], // CBPWR
-  [1932, 625], // OLT
-  [1914, 829] // OLB
+  [0, 0],
+  [2506, 0],
+  [0, 675],
+  [2506, 675]
 ];
 
 const destPoints: OrderedPair[] = [
-  [752, 402], 
-  [1294, 432],
-  [889, 1067],
-  [1236, 918],
-  [847, 1258],
-  [1244, 1100],
-  [1439, 623],
-  [1432, 765]
+  [13, 158],
+  [247, 154],
+  [13, 252],
+  [247, 248]
 ];
 
 function constructMatrixA(source: OrderedPair[], dest: OrderedPair[]): mathjs.Matrix {
