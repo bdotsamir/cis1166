@@ -108,6 +108,8 @@ class LinearTransformation(Scene):
     self.play(FadeIn(vec_label))
     vec_label.save_state()
 
+    self.wait(1)
+
     self.play(
       FadeOut(plane, background_plane, i_hat, j_hat, vector)
     )
@@ -199,6 +201,46 @@ class LinearTransformation(Scene):
     self.play(Transform(i_hat_label, t_ihat_label))
     self.play(Transform(j_hat_label, t_jhat_label))
 
+    self.wait(2)
+
     self.play(
       FadeOut(plane, background_plane, vector, i_hat, j_hat)
     )
+    # Remaining: i_hat, j_hat, t_vec_label
+
+    t_1_copy = t_1.copy()
+    t_2_copy = t_2.copy()
+
+    transformed_group = VGroup(
+      t_vec_label,
+      MathTex(r"="),
+      t_1_copy,
+      t_star.copy(),
+      t_ihat_label,
+      t_plus.copy(),
+      t_2_copy,
+      t_star.copy(),
+      t_jhat_label
+    ).arrange()
+
+    self.play(Transform(
+      VGroup(i_hat_label, j_hat_label, vec_label),
+      transformed_group
+    ))
+
+    self.wait(2)
+
+    original_vector_text = Text("Original vector: ", color=YELLOW)
+    original_vector_matrix = Matrix([[1], [2]]).set_color(YELLOW)
+    original_vector_group = VGroup(original_vector_text, original_vector_matrix)
+    original_vector_group.arrange(buff=0.5)
+    original_vector_group.scale(0.8)
+
+    original_vector_group.next_to(transformed_group, DOWN, buff=0.5)
+
+    self.play(Write(original_vector_group))
+    self.wait(2)
+
+    self.play(Circumscribe(t_ihat_label))
+    self.play(Circumscribe(t_jhat_label))
+    self.wait(1)
