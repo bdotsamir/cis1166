@@ -1,0 +1,204 @@
+from manim import *
+
+class VectorIntroduction(Scene):
+  def construct(self):
+    def label_updater(matrix: MobjectMatrix):
+      new_x, new_y, __ = vector.get_end()
+      x_text.set_value(int(new_x))
+      y_text.set_value(int(new_y))
+
+    plane = NumberPlane()
+    self.play(Write(plane), run_time=1.5)
+    
+    self.wait(1)
+
+    vector = Vector([1, 2]).set_color(YELLOW)
+    self.play(GrowArrow(vector))
+
+    self.wait(2)
+
+    # Create dot to follow vector path
+    dot = Dot().set_color(BLUE)
+    dot.scale(1.5)
+
+    self.play(FadeIn(dot), run_time=0.5)
+    self.play(MoveAlongPath(dot, vector), run_time=1)
+    self.wait(0.5)
+    # Remove dot
+    self.play(FadeOut(dot), run_time=0.5)
+    self.remove(dot)
+
+    self.wait(1)
+
+    x, y, _ = vector.get_end()
+    print(x, y)
+    x_text = Integer(int(x))
+    y_text = Integer(int(y))
+    label = MobjectMatrix([[x_text], [y_text]], bracket_h_buff=MED_LARGE_BUFF, include_background_rectangle=True)
+    label.set_row_colors(GREEN, RED)
+    label.next_to(vector, RIGHT)
+    self.play(FadeIn(label))
+
+    self.wait(3)
+
+    label.add_updater(label_updater)
+
+    v2 = Vector([-3, -1]).set_color(PINK)
+    v3 = Vector([-3, 2]).set_color(BLUE)
+    v4 = Vector([3, -1]).set_color(ORANGE)
+
+    self.play(Transform(vector, v2))
+    self.play(Transform(vector, v3))
+    self.play(Transform(vector, v4))
+
+    # Performance, I guess?
+    label.remove_updater(label_updater)
+
+class LinearTransformation(Scene):
+
+  # Array of Mobjects that will be transformed
+  # by the ApplyMatrix animation
+  transformable_mobjects = []
+
+  def construct(self):
+    title = Text("Linear Transformation")
+    self.play(Write(title))
+    self.wait(2)
+    self.play(title.animate.to_edge(UP))
+
+    self.wait(0.5)
+
+    plane = NumberPlane()
+    background_plane = NumberPlane(
+      faded_line_style={
+      "stroke_color": DARK_GREY,
+      "stroke_opacity": 0.01
+    })
+    background_plane.z_index = -10
+    background_plane.fade()
+    self.add(background_plane)
+    self.play(FadeIn(plane), FadeIn(background_plane))
+
+    self.transformable_mobjects.append(plane)
+
+    i_hat = Vector([1, 0])
+    i_hat.set_color(GREEN)
+    i_hat_label = MathTex(r"\hat{\imath}")
+    i_hat_label.set_color(GREEN)
+    i_hat_label.next_to(i_hat, UP, buff=0.003)
+    i_hat_label.save_state()
+
+    j_hat = Vector([0, 1])
+    j_hat.set_color(RED)
+    j_hat_label = MathTex(r"\hat{\jmath}")
+    j_hat_label.set_color(RED)
+    j_hat_label.next_to(j_hat, LEFT, buff=0.04)
+    j_hat_label.save_state()
+
+    self.play(GrowArrow(i_hat))
+    self.play(FadeIn(i_hat_label))
+    self.play(GrowArrow(j_hat))
+    self.play(FadeIn(j_hat_label))
+
+    vector = Vector([1, 2])
+    vector.set_color(YELLOW)
+    vec_label = vector.coordinate_label(color=YELLOW)
+    vec_label.next_to(vector, RIGHT)
+    self.play(GrowArrow(vector))
+    self.play(FadeIn(vec_label))
+    vec_label.save_state()
+
+    self.play(
+      FadeOut(plane, background_plane, i_hat, j_hat, vector)
+    )
+
+    vec_l_copy = vec_label.copy()
+    t_eq = MathTex(r"=")
+    t_1 = MathTex(r"1").set_color(YELLOW)
+    t_star = MathTex(r"*")
+    mat_i_hat = Matrix([[1], [0]]).set_color(GREEN)
+    t_plus = MathTex(r"+")
+    t_2 = MathTex(r"2").set_color(YELLOW)
+    t_star_copy = t_star.copy()
+    mat_j_hat = Matrix([[0], [1]]).set_color(RED)
+
+    VGroup(
+      vec_l_copy,
+      t_eq,
+      t_1,
+      t_star,
+      mat_i_hat,
+      t_plus,
+      t_2,
+      t_star_copy,
+      mat_j_hat
+    ).arrange()
+
+    self.play(LaggedStart(
+      Transform(vec_label, vec_l_copy),
+      Write(t_eq),
+      Write(t_1),
+      Write(t_star),
+      Transform(i_hat_label, mat_i_hat),
+      Write(t_plus),
+      Write(t_2),
+      Write(t_star_copy),
+      Transform(j_hat_label, mat_j_hat),
+      run_time=3,
+      lag_ratio=0.25
+    ))
+
+    self.wait(3)
+
+    self.play(
+      Restore(vec_label),
+      Restore(i_hat_label),
+      Restore(j_hat_label),
+      FadeIn(plane, background_plane, vector, i_hat, j_hat),
+      FadeOut(t_eq, t_1, t_star, t_plus, t_2, t_star_copy)
+    )
+
+    self.wait(1)
+
+    # Transformation matrix
+    t_mat = [
+      [3, 2],
+      [0, 2]
+    ]
+    def transform_objects(object):
+      return ApplyMatrix(t_mat, object)
+    
+    t_ihat = Vector([t_mat[0][0], t_mat[1][0]])
+    t_ihat.set_color(GREEN)
+    t_jhat = Vector([t_mat[0][1], t_mat[1][1]])
+    t_jhat.set_color(RED)
+
+    t_vec = Vector([7, 4])
+    t_vec.set_color(PINK)
+    t_vec_label = t_vec.coordinate_label(color=PINK)
+    t_vec_label.move_to([6, 2.5, 0])
+
+    self.play(
+      *map(transform_objects, self.transformable_mobjects),
+      AnimationGroup(
+        Transform(i_hat, t_ihat),
+        Transform(j_hat, t_jhat),
+        Transform(vector, t_vec),
+        Transform(vec_label, t_vec_label),
+        i_hat_label.animate.next_to(t_ihat, UP, buff=-1),
+        j_hat_label.animate.next_to(t_jhat, LEFT, buff=0.04),
+        run_time=3
+      )
+    )
+
+    self.wait(2)
+
+    t_ihat_label = t_ihat.coordinate_label(color=GREEN)
+    t_jhat_label = t_jhat.coordinate_label(color=RED)
+
+    self.play(Transform(i_hat_label, t_ihat_label))
+    self.play(Transform(j_hat_label, t_jhat_label))
+
+    self.play(
+      FadeOut(plane, background_plane, vector, i_hat, j_hat)
+    )
