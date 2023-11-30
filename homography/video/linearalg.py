@@ -244,3 +244,70 @@ class LinearTransformation(Scene):
     self.play(Circumscribe(t_ihat_label))
     self.play(Circumscribe(t_jhat_label))
     self.wait(1)
+
+class WhatAboutTheOpposite(Scene):
+  def construct(self):
+    title = Text("What about the opposite?")
+    self.play(FadeIn(title))
+
+    self.wait(2)
+
+    self.play(title.animate.move_to(UP * 2))
+
+    vector_label = Matrix([[7], [-4]]).set_color(PINK)
+    i_hat = Matrix([
+      [3], 
+      [0]
+      ]).set_color(GREEN)
+    m_star = MathTex(r"*")
+    j_hat = Matrix([
+      [2],
+      [2]
+    ]).set_color(RED)
+    m_star_copy = m_star.copy()
+    group = VGroup(
+      vector_label,
+      MathTex(r"="),
+      MathTex(r"1").set_color(YELLOW),
+      m_star,
+      i_hat,
+      MathTex(r"+"),
+      MathTex(r"2").set_color(YELLOW),
+      m_star_copy,
+      j_hat
+    ).arrange()
+
+    self.play(FadeIn(group))
+
+    self.wait(2)
+
+    # There's gotta be a better way to do this?
+    i_unknown = Matrix([["x"], ["y"]]).set_color(GREEN)
+    i_unknown.next_to(m_star, RIGHT)
+    j_unknown = Matrix([["x"], ["y"]]).set_color(RED)
+    j_unknown.next_to(m_star_copy, RIGHT)
+
+    self.play(
+      Transform(i_hat, i_unknown), 
+      Transform(j_hat, j_unknown)
+    )
+
+    self.wait(2)
+
+    self.play(
+      Circumscribe(i_unknown), 
+      Circumscribe(j_unknown)
+    )
+
+    self.wait(1)
+
+    self.play(
+      FadeOut(title, group, i_unknown, j_unknown)
+    )
+
+    self.wait(2)
+
+    homography = Text("Homography").set_color(YELLOW)
+    self.play(Write(homography))
+
+    self.wait(1)
