@@ -42,6 +42,3 @@ class MatrixScene(Scene):
     self.wait(1)
 
     # self.add(VGroup(tex, other_vector_matrix).arrange(RIGHT))
-
-
-
