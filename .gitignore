@@ -3,6 +3,9 @@
 
 homography/video/media/
 
+# Temporary docx files
+~$*.docx
+
 ### Node ###
 # Logs
 logs
