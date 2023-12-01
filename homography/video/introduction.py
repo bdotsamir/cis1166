@@ -1,5 +1,24 @@
 from manim import *
 
+class MadeWithManim(Scene):
+  def construct(self):
+    made_with = Text("Proudly made with")
+    banner = ManimBanner()
+    banner.scale(0.8)
+
+    VGroup(made_with, banner).arrange(DOWN, buff=1)
+
+    self.play(FadeIn(made_with))
+    self.play(banner.create())
+    self.play(banner.expand())
+
+    self.wait(2)
+    self.play(
+      FadeOut(made_with), 
+      Unwrite(banner)
+    )
+    self.wait(1)
+
 class IntroductionScene(Scene):
   def construct(self):
     image = ImageMobject('../images/phillies.jpg')
@@ -32,11 +51,14 @@ class Homography(Scene):
     self.play(text.animate.move_to([0, 2, 0]))
 
     matrix = Matrix([
-      [1, 2], 
-      [-1, -1]
-      ]).set_column_colors(GREEN, RED)
+      ["x_{11}", "x_{12}", "x_{13}"],
+      ["x_{21}", "x_{22}", "x_{23}"],
+      ["x_{31}", "x_{32}", "1"]
+    ])
     # matrix.next_to(text, DOWN)
 
     self.play(Write(matrix))
 
     self.wait(3)
+
+    self.play(FadeOut(text, matrix))
