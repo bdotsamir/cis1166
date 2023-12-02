@@ -71,10 +71,10 @@ class BigMatrix(Scene):
       [0, 0, 0, "x_{s}^{(n)}", "y_{s}^{(n)}", 1, "-y_{d}^{(n)}x_{s}^{(n)}", "-y_{d}^{(n)}y_{s}^{(n)}", "-y_{d}^{(n)}"],
     ], h_buff=1.5, element_alignment_corner=DOWN)
 
-    self.play(Transform(special_matrix, composed_xy_matrix))
-    self.play(special_matrix.animate.shift(UP * 0.5))
-    c_mat_brace = Brace(special_matrix).set_color(YELLOW)
-    c_mat_brace.next_to(special_matrix, DOWN, buff=0.05)
+    self.play(ReplacementTransform(special_matrix, composed_xy_matrix))
+    self.play(composed_xy_matrix.animate.shift(UP * 0.5))
+    c_mat_brace = Brace(composed_xy_matrix).set_color(YELLOW)
+    c_mat_brace.next_to(composed_xy_matrix, DOWN, buff=0.05)
     text_A = MathTex(r"A").set_color(YELLOW)
     t_A_copy = text_A.copy()
     text_A.next_to(c_mat_brace, DOWN, buff=0.1)
@@ -102,13 +102,13 @@ class BigMatrix(Scene):
     text_AT.next_to(c_mat_brace, DOWN, buff=0.1),
 
     self.play(
-      Transform(special_matrix, transposed_composed_xy_matrix),
+      ReplacementTransform(composed_xy_matrix, transposed_composed_xy_matrix),
       ReplacementTransform(text_A, text_AT),
-      c_mat_brace.animate.next_to(special_matrix, DOWN, buff=0.05)
+      c_mat_brace.animate.next_to(transposed_composed_xy_matrix, DOWN, buff=0.05)
     )
     self.wait(3)
 
-    self.play(FadeOut(special_matrix, c_mat_brace))
+    self.play(FadeOut(transposed_composed_xy_matrix, c_mat_brace))
 
     mult_group = VGroup(
       text_AT.copy(),
@@ -156,7 +156,7 @@ class LongAndComplicated(Scene):
 
     step2 = VGroup(xdi_step2, ydi_step2).arrange(DOWN, buff=1)
 
-    self.play(Transform(step1, step2))
+    self.play(ReplacementTransform(step1, step2))
     self.wait(0.5)
 
     xy_matrix = Matrix([
@@ -184,7 +184,7 @@ class LongAndComplicated(Scene):
 
     step3 = VGroup(xy_matrix, h_matrix, t_eq, zero_zero_matrix).arrange().scale(0.7)
 
-    self.play(Transform(step1, step3))
+    self.play(ReplacementTransform(step2, step3))
     self.wait(0.5)
 
     composed_xy_matrix = Matrix([
@@ -210,5 +210,5 @@ class LongAndComplicated(Scene):
 
     step4 = VGroup(composed_xy_matrix, h_matrix_copy, t_eq_copy, zeros_matrix).arrange().scale(0.7)
 
-    self.play(Transform(step1, step4))
+    self.play(ReplacementTransform(step3, step4))
     self.wait(3)
