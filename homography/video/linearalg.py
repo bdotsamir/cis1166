@@ -1,5 +1,20 @@
 from manim import *
 
+class HoVec(Scene):
+  def construct(self):
+    homography = Text("Homography")
+    self.play(Write(homography))
+    self.wait(2)
+      
+    self.play(
+      homography.animate.move_to(UP).set_color(GREY)
+    )
+
+    vectors = Text("Vector")
+    self.play(Write(vectors))
+    self.wait(2)
+    self.play(FadeOut(homography, vectors))
+
 class VectorIntroduction(Scene):
   def construct(self):
     def label_updater(matrix: MobjectMatrix):
@@ -10,7 +25,7 @@ class VectorIntroduction(Scene):
     plane = NumberPlane()
     self.play(Write(plane), run_time=1.5)
     
-    self.wait(1)
+    self.wait(7)
 
     vector = Vector([1, 2]).set_color(YELLOW)
     self.play(GrowArrow(vector))
@@ -23,15 +38,15 @@ class VectorIntroduction(Scene):
 
     self.play(FadeIn(dot), run_time=0.5)
     self.play(MoveAlongPath(dot, vector), run_time=1)
-    self.wait(0.5)
+    self.wait(2)
     # Remove dot
-    self.play(FadeOut(dot), run_time=0.5)
-    self.remove(dot)
+    self.play(Flash(dot))
+    self.wait(1)
+    self.play(FadeOut(dot))
 
     self.wait(1)
 
     x, y, _ = vector.get_end()
-    print(x, y)
     x_text = Integer(int(x))
     y_text = Integer(int(y))
     label = MobjectMatrix([[x_text], [y_text]], bracket_h_buff=MED_LARGE_BUFF, include_background_rectangle=True)
@@ -40,6 +55,11 @@ class VectorIntroduction(Scene):
     self.play(FadeIn(label))
 
     self.wait(3)
+
+    self.play(Indicate(x_text))
+    self.wait(1)
+    self.play(Indicate(y_text))
+    self.wait(1)
 
     label.add_updater(label_updater)
 
@@ -162,6 +182,14 @@ class LinearTransformation(Scene):
 
     self.wait(1)
 
+    self.play(Indicate(i_hat_label))
+    self.wait(1)
+    self.play(Indicate(j_hat_label))
+    self.wait(2)
+
+    self.play(Indicate(vec_label))
+    self.wait(2)
+
     # Transformation matrix
     t_mat = [
       [3, 2],
@@ -243,6 +271,75 @@ class LinearTransformation(Scene):
 
     self.play(Circumscribe(t_ihat_label))
     self.play(Circumscribe(t_jhat_label))
+    self.wait(1)
+
+class LinTransPatch(Scene):
+  def construct(self):
+    title = Text("Linear Transformation")
+    title.to_edge(UP)
+    self.add(title)
+
+    t_vec = Matrix([[7], [4]]).set_color(PINK)
+    mt_eq = MathTex(r"=")
+    mt_1 = MathTex(r"1").set_color(YELLOW)
+    mt_star = MathTex(r"*")
+    t_ihat = Matrix([[3], [0]]).set_color(GREEN)
+    mt_plus = MathTex(r"+")
+    mt_2 = MathTex(r"2").set_color(YELLOW)
+    mt_star_copy = mt_star.copy()
+    t_jhat = Matrix([[2], [2]]).set_color(RED)
+
+    step1 = VGroup(
+      # t_vec,
+      # mt_eq,
+      mt_1,
+      mt_star,
+      t_ihat,
+      mt_plus,
+      mt_2,
+      mt_star_copy,
+      t_jhat
+    ).arrange()
+
+    self.add(step1)
+
+    self.wait(2)
+
+    self.play(Indicate(mt_1))
+    self.wait(2)
+    self.play(Indicate(t_ihat))
+    self.wait(1)
+    self.play(Indicate(mt_2))
+    self.wait(2)
+    self.play(Indicate(t_jhat))
+
+    step2 = VGroup(
+      Matrix([[3], [0]]).set_color(GREEN),
+      mt_plus,
+      Matrix([[4], [4]]).set_color(RED)
+    ).arrange()
+
+    self.play(Transform(step1, step2))
+
+    final_vec = Matrix([[7], [4]]).set_color(PINK)
+
+    self.wait(1)
+
+    self.play(Transform(step1, final_vec))
+
+    self.wait(5)
+
+class JustTheCoordinates(Scene):
+  def construct(self):
+    matrix = Matrix([
+      ["x", "x"],
+      ["y", "y"]
+    ]).set_column_colors(GREEN, RED)
+
+    self.play(Write(matrix))
+
+    self.wait(3)
+    self.play(Unwrite(matrix))
     self.wait(1)
 
 class WhatAboutTheOpposite(Scene):
