@@ -74,6 +74,7 @@ class VectorIntroduction(Scene):
     # Performance, I guess?
     label.remove_updater(label_updater)
 
+# TODO: REWRITE THIS
 class LinearTransformation(Scene):
 
   # Array of Mobjects that will be transformed
@@ -192,7 +193,7 @@ class LinearTransformation(Scene):
 
     # Transformation matrix
     t_mat = [
-      [3, 2],
+      [3, 1],
       [0, 2]
     ]
     def transform_objects(object):
@@ -203,7 +204,7 @@ class LinearTransformation(Scene):
     t_jhat = Vector([t_mat[0][1], t_mat[1][1]])
     t_jhat.set_color(RED)
 
-    t_vec = Vector([7, 4])
+    t_vec = Vector([5, 4])
     t_vec.set_color(PINK)
     t_vec_label = t_vec.coordinate_label(color=PINK)
     t_vec_label.move_to([6, 2.5, 0])
@@ -279,7 +280,7 @@ class LinTransPatch(Scene):
     title.to_edge(UP)
     self.add(title)
 
-    t_vec = Matrix([[7], [4]]).set_color(PINK)
+    t_vec = Matrix([[5], [4]]).set_color(PINK)
     mt_eq = MathTex(r"=")
     mt_1 = MathTex(r"1").set_color(YELLOW)
     mt_star = MathTex(r"*")
@@ -287,7 +288,7 @@ class LinTransPatch(Scene):
     mt_plus = MathTex(r"+")
     mt_2 = MathTex(r"2").set_color(YELLOW)
     mt_star_copy = mt_star.copy()
-    t_jhat = Matrix([[2], [2]]).set_color(RED)
+    t_jhat = Matrix([[1], [2]]).set_color(RED)
 
     step1 = VGroup(
       # t_vec,
@@ -316,12 +317,12 @@ class LinTransPatch(Scene):
     step2 = VGroup(
       Matrix([[3], [0]]).set_color(GREEN),
       mt_plus,
-      Matrix([[4], [4]]).set_color(RED)
+      Matrix([[2], [4]]).set_color(RED)
     ).arrange()
 
     self.play(Transform(step1, step2))
 
-    final_vec = Matrix([[7], [4]]).set_color(PINK)
+    final_vec = Matrix([[5], [4]]).set_color(PINK)
 
     self.wait(1)
 
@@ -351,14 +352,14 @@ class WhatAboutTheOpposite(Scene):
 
     self.play(title.animate.move_to(UP * 2))
 
-    vector_label = Matrix([[7], [-4]]).set_color(PINK)
+    vector_label = Matrix([[5], [4]]).set_color(PINK)
     i_hat = Matrix([
       [3], 
       [0]
       ]).set_color(GREEN)
     m_star = MathTex(r"*")
     j_hat = Matrix([
-      [2],
+      [1],
       [2]
     ]).set_color(RED)
     m_star_copy = m_star.copy()
