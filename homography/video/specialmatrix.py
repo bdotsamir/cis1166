@@ -9,7 +9,7 @@ class SpecialMatrix(Scene):
     ], h_buff=1.5, element_alignment_corner=DOWN)
 
     self.play(Write(special_matrix))
-    self.wait(1)
+    self.wait(5)
 
 class BigMatrix(Scene):
   def construct(self):
