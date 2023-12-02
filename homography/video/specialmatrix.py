@@ -13,12 +13,51 @@ class SpecialMatrix(Scene):
 
 class ShortMatrix(Scene):
   def construct(self):
+    source_pair_coords = [
+      "(0, 0)",
+      "(2506, 0)",
+      "(0, 675)",
+      "(2506, 675)"
+    ]
+    dest_pair_coords = [
+      "(13, 158)",
+      "(247, 154)",
+      "(13, 252)",
+      "(247, 248)"
+    ]
+
+    source_coordinates = [MathTex(s_pair).set_color(YELLOW) for s_pair in source_pair_coords]
+    
+    dest_coordinates = [MathTex(d_pair).set_color(PINK) for d_pair in dest_pair_coords]
+    
+    s_coord_group = VGroup(*source_coordinates).arrange()
+    d_coord_group = VGroup(*dest_coordinates).arrange()
+
+    s_coord_group.shift(UP * 2 + LEFT * 2)
+    d_coord_group.shift(UP * 1 + RIGHT * 2) # offset
+
     special_matrix = Matrix([
       ["x_{s}", "y_{s}", "1", "0", "0", "0", "- x_{d}x_{s}", "-x_{d}y_{d}", "-x_{d}"],
       [0, 0, 0, "x_{s}", "y_{s}", 1, "-y_{d}x_{s}", "-y_{d}y_{s}", "-y_{d}"]
     ], h_buff=1.5, element_alignment_corner=DOWN)
 
     self.play(Write(special_matrix))
+    self.wait(1)
+
+    self.play(FadeIn(s_coord_group))
+    self.play(FadeIn(d_coord_group))
+
+    self.wait(2)
+
+    self.play(
+      s_coord_group.animate.move_to(ORIGIN).scale(0.01)
+    )
+    self.remove(s_coord_group)
+    self.play(
+      d_coord_group.animate.move_to(ORIGIN).scale(0.01)
+    )
+    self.remove(d_coord_group)
+
     self.wait(10)
 
 class LongAndComplicated(Scene):
