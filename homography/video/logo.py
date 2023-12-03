@@ -1,3 +1,4 @@
+from re import S
 from manim import *
 
 class TempleLogo(Scene):
@@ -105,3 +106,102 @@ class TempleLogo(Scene):
     # "... but we don't know the transformation matrix."
     self.wait(2)
 
+class OurExampleFromEarlier(Scene):
+  def construct(self):
+    temple = ImageMobject('../images/temple_logo.png')
+    temple.scale(0.3)
+    temple.set_z_index(1)
+
+    phillies = ImageMobject('../images/phillies.jpg')
+    phillies.scale(1.3)
+
+    self.play(FadeIn(temple))
+
+    # self.wait(5)
+
+    self.play(
+      temple.animate.move_to(RIGHT * 2).scale(0.7),
+      FadeIn(phillies)
+    )
+
+    p_tl = UP * 1.5 + LEFT * 4.3
+    p_tr = UP * 1.5 + LEFT * 2.1
+    p_bl = UP * 0.65 + LEFT * 4.3
+    p_br = UP * 0.7 + LEFT * 2.1
+
+    t_tl, t_tr, t_bl, t_br = temple.points
+
+    t_dots = [
+      Dot(t_tl).set_color(YELLOW),
+      Dot(t_tr).set_color(GREEN),
+      Dot(t_bl).set_color(RED),
+      Dot(t_br).set_color(BLUE)
+    ]
+    for dot in t_dots:
+      dot.set_z_index(2)
+      dot.scale(1.2)
+
+    p_dots = [
+      Dot(p_tl).set_color(YELLOW),
+      Dot(p_tr).set_color(GREEN),
+      Dot(p_bl).set_color(RED),
+      Dot(p_br).set_color(BLUE)
+    ]
+
+
+    arrows = [
+      Arrow(start=t_tl, end=p_tl).set_color(YELLOW),
+      Arrow(start=t_tr, end=p_tr).set_color(GREEN),
+      Arrow(start=t_bl, end=p_bl).set_color(RED),
+      Arrow(start=t_br, end=p_br).set_color(BLUE)
+    ]
+
+    # self.add(*t_dots)
+    # self.add(*p_dots)
+    # self.add(*arrows)
+
+    self.play(*[
+      FadeIn(dot)
+      for dot in [*t_dots, *p_dots]
+    ], *[
+      GrowArrow(arrow)
+      for arrow in arrows
+    ])
+
+    self.wait(2)
+
+    self.play(*[
+      Flash(dot)
+      for dot in t_dots
+    ])
+
+    self.wait(3)
+
+    self.play(*[
+      Flash(dot)
+      for dot in p_dots
+    ])
+
+    backdrop = Rectangle(color=BLACK, height=10, width=10)
+    backdrop.set_opacity(0.9)
+    backdrop.set_z_index(2)
+
+    self.play(FadeIn(backdrop))
+
+    self.wait(1)
+
+    tex_a = MathTex("A", color=YELLOW)
+    tex_a.set_z_index(3)
+    tex_star = MathTex("*")
+    tex_star.set_z_index(3)
+    tex_at = MathTex("A^{T}", color=YELLOW)
+    tex_at.set_z_index(3)
+
+    group = VGroup(tex_at, tex_star, tex_a).arrange()
+    group.set_z_index(3)
+
+    self.play(Write(group))
+
+    self.wait(4)
+
+    # FADE OUT

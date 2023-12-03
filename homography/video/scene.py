@@ -42,3 +42,33 @@ class MatrixScene(Scene):
     self.wait(1)
 
     # self.add(VGroup(tex, other_vector_matrix).arrange(RIGHT))
+
+class SpecialThanks(Scene):
+  def construct(self):
+    special_thanks = Text("Special thanks to:")
+    self.play(Write(special_thanks))
+
+    self.wait(1)
+
+    self.play(Unwrite(special_thanks))
+
+    three_b1b = Tex("• Grant Sanderson (3blue1brown):\par for the wonderful animation engine, and for\par the awesome linear algebra videos\par")
+
+    tristan = Tex("• Tristan Schulz (MrDiver):\par my new German friend in...\par")
+    manim_community = Tex("• The Manim Community:\par I would not have finished this project\par were it not for your help.\par")
+
+    group = VGroup(
+      three_b1b,
+      tristan,
+      manim_community,
+    ).arrange(DOWN)
+
+    self.play(Write(group))
+
+    self.wait(3)
+    self.play(FadeOut(group))
+
+    thank_you = Text("Thank you.")
+    self.play(FadeIn(thank_you))
+    self.wait(2)
+    self.play(FadeOut(thank_you))

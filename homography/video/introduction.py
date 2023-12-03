@@ -2,7 +2,7 @@ from manim import *
 
 class MadeWithManim(Scene):
   def construct(self):
-    made_with = Text("Proudly made with")
+    made_with = Text("Made with")
     banner = ManimBanner()
     banner.scale(0.8)
 

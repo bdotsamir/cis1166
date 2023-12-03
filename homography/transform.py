@@ -22,17 +22,17 @@ matrix = np.float32([
     [0.000000000000000006736284271475909, -0.0000000000000000021590270586249244, 1]
 ])
 
-h, status = cv2.findHomography(srcPoints, destPoints)
+# h, status = cv2.findHomography(srcPoints, destPoints)
 # print(h)
 
-result1 = cv2.warpPerspective(img, matrix, (2000, 2000))
-result2 = cv2.warpPerspective(img, h, (2000, 2000))
+result1 = cv2.warpPerspective(img, matrix, (300, 300))
+# result2 = cv2.warpPerspective(img, h, (2000, 2000))
 
 # These are exactly the same. The input data was likely flawed
-cv2.imshow("frame1", result1)
-cv2.imshow("frame2", result2)
+# cv2.imshow("frame1", result1)
+# cv2.imshow("frame2", result2)
 
-cv2.imwrite("transformed.jpeg", result1)
+cv2.imwrite("transformed.png", result1)
 
-cv2.waitKey(0)
+# cv2.waitKey(0)
 cv2.destroyAllWindows()
